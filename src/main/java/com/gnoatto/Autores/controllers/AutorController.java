@@ -37,7 +37,7 @@ public class AutorController {
         return autorService.buscarPorId(id);
     }
 
-
+    @PutMapping("/{id}")
     public AutorModel atualizarAutor(@PathVariable Long id,@RequestBody AutorModel autorNovo){
         return autorService.atualizarAutor(id, autorNovo);
     }

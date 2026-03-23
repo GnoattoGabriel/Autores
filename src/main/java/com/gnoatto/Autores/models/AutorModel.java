@@ -12,8 +12,12 @@ public class AutorModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "nome_autor")
     private String nome;
     private String nacionalidade;
+
+    @Column(name = "data_nascimento")
     private LocalDate dataNascimento;
 
     public AutorModel(){
