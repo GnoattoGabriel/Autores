@@ -4,6 +4,7 @@ package com.gnoatto.Autores.controllers;
 import com.gnoatto.Autores.models.AutorModel;
 import com.gnoatto.Autores.services.AutorService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,28 +19,33 @@ public class AutorController {
 
 
     @PostMapping
-    public AutorModel criarAutor(@RequestBody AutorModel novoAutor){
-        return autorService.criarAutor(novoAutor);
+    public ResponseEntity<AutorModel> criarAutor(@RequestBody AutorModel novoAutor){
+        AutorModel autor = autorService.criarAutor(novoAutor);
+        return ResponseEntity.status(201).body(autor);
     }
 
     @GetMapping
-    public List<AutorModel> buscarTodos(){
-        return autorService.listarTodos();
+    public ResponseEntity<List<AutorModel>> buscarTodos(){
+        return ResponseEntity.ok(autorService.listarTodos());
     }
 
     @DeleteMapping("/{id}")
-    public void deletarAutor(@PathVariable Long id){
+    public ResponseEntity<?> deletarAutor(@PathVariable Long id){
         autorService.deletarAutor(id);
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/{id}")
-    public Optional<AutorModel> buscarPorId(@PathVariable Long id){
-        return autorService.buscarPorId(id);
+    public ResponseEntity<AutorModel> buscarPorId(@PathVariable Long id){
+        return autorService.buscarPorId(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @PutMapping("/{id}")
-    public AutorModel atualizarAutor(@PathVariable Long id,@RequestBody AutorModel autorNovo){
-        return autorService.atualizarAutor(id, autorNovo);
+    public ResponseEntity<AutorModel> atualizarAutor(@PathVariable Long id,@RequestBody AutorModel autorNovo){
+        AutorModel autor = autorService.atualizarAutor(id, autorNovo);
+        return ResponseEntity.ok(autor);
     }
 
 }
